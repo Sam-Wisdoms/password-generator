@@ -90,26 +90,13 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordLength() {
-  let userResponse = prompt('Please enter a number from 8 to 128');
-  let userResponse = Number(userResponse);
+  let userResponse = prompt('Please enter a number between 8 and 128');
+  userResponse = Number(userResponse);
   if (userResponse >= 8 && userResponse <= 128) {
     return userResponse;
   } else {
     return false;
   }
-
-
-  // let userResponse = prompt('Please input the numbers between 8 to 128');
-  // userResponse = Number(userResponse);
-  // console.log(userResponse)
-  // if (!userResponse) {
-  //   console.log('It is not a number')
-  // } else if (userResponse >= 8 && userResponse <= 128){
-  //   console.log('success')
-  // } else {
-  //   console.log('It is not a number between range')
-  // }
-  // return userResponse
 }
 
 // getPasswordOptions()
@@ -119,18 +106,7 @@ function getPasswordLength() {
 function getRandom(arr) {
   const randomCharacter = arr[Math.floor(Math.random() * arr.length)];
   return randomCharacter;
-  // return Math.floor(Math.random() *arr.length)
 }
-
-// let randomUpperCase = getRandom(upperCasedCharacters); //////////////////////
-// let randomLowerCasedCharacters = getRandom(lowerCasedCharacters);
-// let randomspecialCharacters = getRandom(specialCharacters);
-// let randomnumericCharacters = getRandom(numericCharacters);
-
-// console.log({ randomUpperCase });
-// console.log({ randomLowerCasedCharacters });
-// console.log({ randomspecialCharacters });
-// console.log({ randomnumericCharacters });///////////////////////////
 
 // Function to generate password with user input
 function generatePassword() {
@@ -156,48 +132,56 @@ function generatePassword() {
     return 'Please try again. You are required to select at least one character type.';
   }
 
-} // Take note of ths closing. If code did not work, come back and check if it is rightly placed
+  // Create a start string string for the password.
+  // It should contain at least one of each selected character.
+  // That would ensure that one of each selected character type will appear at least once
+  let startString = "";
 
-// Create a start string string for the password.
-// It should contain at least one of each selected character.
-// That would ensure that one of each selected character type will appear at least once
-let startString = "";
+  // Create an array to store all possible characters based on user input
+  let possibleCharacters = [];
 
-// Create an array to store all possible characters based on user input
-let possibleCharacters = [];
+  if (includeUppercase) {
+    const randomUpperCase = getRandom(upperCasedCharacters);
+    startString += randomUpperCase;
+    possibleCharacters.push(...upperCasedCharacters);
+  }
 
-if (includeUppercase) {
-  const randomUpperCase = getRandom(upperCasedCharacters);
-  startString += randomUpperCase;
-  possibleCharacters.push(...upperCasedCharacters);
+  if (includeLowercase) {
+    const randomLowerCase = getRandom(lowerCasedCharacters);
+    startString += randomLowerCase;
+    possibleCharacters.push(...lowerCasedCharacters);
+  }
+
+  if (includeNumbers) {
+    const randomNumber = getRandom(numericCharacters);
+    startString += randomNumber;
+    possibleCharacters.push(...numericCharacters);
+  }
+
+  if (includeSpecialCharacters) {                                     
+    const randomspecialCharacters = getRandom(specialCharacters);
+    startString += randomspecialCharacters;
+    possibleCharacters.push(...specialCharacters);
+  }
+
+  // Generate the password
+  let loopCharacters = "";
+  for (let i = 0; i < passwordLength - startString.length; i++) {
+    loopCharacters += getRandom(possibleCharacters);
+  }
+
+  // console.log("LOOP CHARCATERS: ", loopCharacters)
+  let generatePassword = startString + loopCharacters;
+  return generatePassword;
 }
-
-if (includeLowercase) {
-  const randomLowerCase = getRandom(lowerCasedCharacters);
-  startString += randomLowerCase;
-  possibleCharacters.push(...lowerCasedCharacters);
-}
-
-if (includeNumbers) {
-  const randomNumber = getRandom(numericCharacters);
-  startString += randomNumber;
-  possibleCharacters.push(...numericCharacters);
-}
-
-if (includeSpecialCharacters) {
-  const randomspecialCharacters = getRandom(specialCharacters);
-  startString += randomspecialCharacters;
-  possibleCharacters.push(...specialCharacters);
-}
-
 
 // Get references to the #generate element
-var generateBtn = document.querySelector('#generate');
+const generateBtn = document.querySelector('#generate');
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector('#password');
+  const password = generatePassword();
+  const passwordText = document.querySelector('#password');
 
   passwordText.value = password;
 }
