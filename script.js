@@ -113,10 +113,12 @@ function generatePassword() {
   // Get user input for password lenth
   const passwordLength = getPasswordLength();
 
+  // Condintion to prompt the user if they enterd a wrong password length
   if (!passwordLength) {
     return 'You have entered an invalid password legnth. Please try again.';
   }
 
+ // Prompt for different character types
   const includeUppercase = confirm('Do you want to include uppercase letter?');
   const includeLowercase = confirm('Do you want to include lowercase letters?');
   const includeNumbers = confirm('Do you want to include numbers?');
