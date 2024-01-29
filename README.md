@@ -31,7 +31,7 @@ contribute to this project if the goal is to improve the code base or to add mor
 https://github.com/Sam-Wisdoms/password-generator
 
 ## Project Screenhot
-![Alt text](password-generator-1.png)
+![Alt text](<password-generator.png>)
 
 ## Credits: 
 Mr. Dennis Itua (Instructor)
